@@ -1,0 +1,1 @@
+cat /etc/passwd | grep -v '^#' | sed -n 'n;p' | cut -f 1 -d ':' | rev | sort -r | awk -v start=$FT_LINE1 -v end=$FT_LINE2 'NR==start,NR==end' | tr '\n' ', ' | sed 's/,/, /g' | sed 's/, $/./' |  xargs echo -n
