@@ -1,0 +1,157 @@
+<ex00>
+
+// strcmp :: 두개의 문자열을 비교하여 문자열이 완전히 같다면 0을 반환하고, 다르면 음수 혹은 양수를 반환
+
+int		ft_strcmp(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while (s1[i] != '\0' || s2[i] != '\0') //둘다 널값이 아닐때동안
+	{
+		if (s1[i] > s2[i]) // 전이 후보다 크면
+			return (1); // 양수 반환
+		else if (s1[i] < s2[i]) //전이 후보다 작으면
+			return (-1); //음수 반환
+		i++; //아니면 계속 추가하면서 비교
+	}
+	return (0); // 나머지=같다: 0 반환
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<ex01>
+
+// strncmp :: 길이를 지정하여 두 문자열 비교
+
+int		ft_strncmp(char *s1, char *s2, unsigned int n)
+{
+	unsigned int i;
+
+	i = 0;
+	if (n == 0) 길이가 0이면
+		return (0); 널값 반환
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i] && i + 1 < n)
+	//n-1은 음수가 될 확률이 있기 때문에(근데 이미 앞에서 n이 0일때 조건 만들어놔서 별 의미없음)
+		i++;
+	return (s1[i] - s2[i]); //이렇게 반환하면 둘중 누가 크던 양수든 음수든 나옴
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<ex02>
+
+// strcat :: 문자열 연결 / 함수 이름은 문자열을 연결시키다(string concatenate)에서 따옴
+
+char	*ft_strcat(char *dest, char *src)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (dest[i] != '\0') // 문자열의 끝 위치 찾기
+		i++;
+	while (src[j] != '\0') // src가 끝날때까지 복사
+	{
+		dest[i] = src[j]; // 문자열 끝부터 src를 순서대로 복붙
+		i++;
+		j++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<ex03>
+
+// strncat :: 길이를 지정하여 문자열 연결
+
+char	*ft_strncat(char *dest, char *src, unsigned int nb)
+{
+	unsigned int i;
+	unsigned int j;
+
+	i = 0;
+	j = 0;
+	while (dest[i] != '\0') //문자열 끝부분 찾기
+		i++;
+	while (src[j] != '\0' && j < nb) //src가 널이 아니고 nb보다 작을때까지(순서가 0부터 시작하니까)
+	{
+		dest[i] = src[j]; // dest문자열 끝부터 순서대로 복붙
+		i++;
+		j++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<ex04>
+
+// strstr :: 문자열을 찾았으면 문자열로 시작하는 문자열의 포인터를 반환, 문자열이 없으면 NULL을 반환
+
+char	*ft_strstr(char *str, char *to_find) //어떤 문자열에 특정 문자열이 포함되어 있는지 확인
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	if (to_find[j] = '\0') //널값이면 str반환
+		return (str);
+	while (str[i] != '\0') //널값이 아닐동안 반복문
+	{
+		while (str[i + j] == to_find[j] && str[i + j] != '\0')
+		// i가 증가하지 않고 i+j를 하면 차피 1씩 증가하는것과 다름없다
+		// 즉 i가 안쪽에 있다면 str[i]=to_find[j]와 같음 && 널값이 아닐동안
+		{
+			if (to_find[j + 1] = '\0') //j+1이 널값이라면
+				return (&str[i]); //str[i]값을 시작위치로 반환한다
+			++j;
+		}
+		++i; //i를 따로 빼놓는 이유: str[i]값부터 반환해야하기 때문에
+	}
+	return (0); //다 아니면(to_find가 널이 아니고 같은 점도 없음) 널값 반환
+}
+//ex) 01234 01
+//ex) abcde cd
+//ex) c c(2)
+//ex) cd cd(2+1/1)
+//ex) &src[2] 반환:cde
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<ex05>
+
+// strlcat :: 결합되는 문자열의 총 길이를 반환. dest의 마지막 위치에 src을 size - strlen(dest) - 1 만큼 복사하고, 끝에 null문자를 삽입, size와 dest의 크기에 따라 반환값이 달라짐.
+// size가 dest의 크기보다 작을 때: strlen(src) + size를 반환
+// size가 dest의 크기 이상일때: strlen(src) + strlen(dest)를 반환
+
+unsigned int	ft_strlen(char *str) //길이를 구하는 함수
+{
+	unsigned int c;
+
+	c = 0;
+	while (str[c] != '\0')
+		c++;
+	return (c);
+}
+
+unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
+{
+	unsigned int i;
+	unsigned int j;
+
+	i = ft_strlen(dest); //i = dest 문자열 총길이
+	j = 0;
+	if (ft_strlen(dest) >= size) //dest 길이가 사이즈 이상이면
+		return (size + ft_strlen(src)); //사이즈와 src길이를 포함한 값(총길이)을 반환
+	while (src[j] != '\0' && i + 1 < size)
+	//src가 널값이 아니고 dest 길이 + 1이 사이즈보다 작으면
+	{
+		dest[i] = src[j]; //dest에 순서대로 src복사
+		i++;
+		j++;
+	}
+	dest[i] = '\0'; // 널값 붙여줌
+	return (ft_strlen(dest) + ft_strlen(&src[j]));
+	//dest길이+src[j]부터의 길이 반환(총길이)
+}
