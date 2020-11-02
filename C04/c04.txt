@@ -1,0 +1,105 @@
+<ex03>
+
+int		ft_atoi(char *str)
+{
+	int a;
+	int b;
+	int c;
+
+	a = 1;
+	b = 0;
+	c = 0;
+	while (str[c] == '\f' || str[c] == '\n' || str[c] == '\t'
+	|| str[c] == '\v' || str[c] == ' ' || str[c] == '\r') // whitespace 예외처리
+		++c;
+	while (str[c] == '-' || str[c] == '+')
+	{
+		if (str[c] == '-')
+			a *= -1; // 개수만큼 곱하기 - 가 짝수라면 +됨. 홀수면 -됨
+		c++;
+	}
+	while (str[c] >= '0' && str[c] <= '9')
+	{
+		b *= 10; //숫자변환
+		b += (a * (str[c] - '0')); //부호추가. 숫자변환
+		c++;
+	}
+	return (b);
+}
+
+// (*str - '0')는 문자의 아스키 값을 숫자로 변환 했을때의 값을 계산하여 숫자로 치환한 것. *str 값이 '1'이라면 '1'은 아스키 값이 49이고 '0'은 아스키값이 48이므로 49 - 48을 하게되면 1 반환
+// (a * 10) 부분은 기존 값을 한자리씩 앞으로 옮기는 역할 담당. 현재 값이 2이고 기존에 1이 있다면 (1 * 10) + 2 가 되므로 12를 반환
+
+
+// -가 홀수면 -, 짝수면 +가 된다 > - 개수만큼 -1을 곱하면 홀수면 -, 짝수면 +가 되어서 나옴
+// 처음 숫자가 이어지는 곳까지만 출력한다(반복문 이용)
+// 문자를 숫자로 변환한다(이때 음수일지 양수일지 결정한다) ㅡ 그렇다면 a*10 + *str - 0 에 부호가 추가되어야함
+
+<ex04>
+
+// 예외처리 ㅡ 기수가 비어 있거나 크기가 1인 경우/기수에 동일한 문자가 두 번 포함된 경우/기수에 +나 -가 포함된 경우
+
+#include <unistd.h>
+
+int		ft_strlen(char *str) // 길이 측정
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+int		ft_base(char *str) // 기수 예외처리
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = i + 1;
+	if (ft_strlen(str) == 0 || ft_strlen(str) == 1) // 1 이하
+		return (0);
+	while (str[i] != '\0')
+	{
+		if (str[i] < 32 || str[i] > 126) // 출력 불가능 문자
+			return (0);
+		if (str[i] == '+' || str[i] == '-') // 플마 기호
+			return (0);
+		while (str[j] != '\0')
+		{
+			if (str[j] == str[i]) // 중복 문자
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1); // 맞으면 출력
+}
+
+void	ft_putnbr_base(int nbr, char *base) // putnbr과 거의 비슷함
+{
+	int b;
+
+	if (!ft_base(base)) // 예외처리에 걸림
+		return ; //보이드니까
+	b = ft_strlen(base); //베이스 길이
+	if (nbr == -2147483648) // int최소값일 경우
+	{
+		write(1, "-", 1); // - 기호 붙여줌
+		ft_putnbr_base(-(long)nbr / b, base); //long없으면 오류남(크기폭 떄문에)+양수전환+기본과 같음
+		ft_putnbr_base(-(long)nbr % b, base); //양수로 변환해줌+기본과 같음
+	}
+	else if (nbr < 0) // 음수일 경우
+	{
+		write(1, "-", 1); // - 기호 붙여줌
+		ft_putnbr_base(-nbr, base); //양수로 변환해줌
+	}
+	else if (nbr < b) //  기수보다 작음
+		write(1, &base[nbr], 1); // nbr 순부터 출력
+	else // 그외
+	{
+		ft_putnbr_base(nbr / b, base); //수에 길이를 나눈 몫을 반환
+		ft_putnbr_base(nbr % b, base); //수에 길이를 나눈 나머지를 반환
+	}
+}
