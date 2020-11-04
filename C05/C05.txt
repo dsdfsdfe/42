@@ -1,0 +1,147 @@
+<Ex00>
+
+int		ft_iterative_factorial(int nb)
+{
+	int		i;
+	int		j;
+
+	i = 1;
+	j = 1;
+	if (nb < 0) //유효하지 않은 인자(음수) 처리
+		return (0);
+	if (nb == 0) // 0 팩토리얼은 1이다
+		return (1);
+	while (nb >= i) //nb가 i보다 클동안
+	{
+		j *= i; //j는 j * i 값이다
+		i++; //i만 1씩 늘이면 팩토리얼 가능
+	}
+	return (j); //j반환
+}
+
+**팩토리얼: 0 = 1 * 0! == 1 / ex) 4! = 1 * 2 * 3 * 4 = 24
+
+<Ex01>
+
+00과 같지만 재귀함수 사용
+
+<Ex02>
+
+int		ft_iterative_power(int nb, int power) // nb를 power수만큼 곱한다
+{
+	int	i;
+	int	j;
+
+	i = power;
+	j = nb;
+	if (i < 0) //음수 예외처리
+		return (0);
+	if (i == 0) // 0일때 예외처리
+		return (1);
+	while (i > 1) // i가 1보다 클동안
+	{
+		j *= nb; // j에 nb를 곱한다 = nb * nb ...가 됨
+		i--; // i를 1씩 줄여줌
+	}
+	return (j);
+}
+
+**거듭제곱: n에 n승 = n을 n번 곱함
+
+<Ex03>
+
+02와 같지만 재귀함수 사용
+
+<Ex04>
+
+int		ft_fibonacci(int index)
+{
+	int i;
+
+	i = index;
+	if (i < 0) //음수일때 예외처리
+		return (-1);
+	else if (i == 0 || i == 1) //0과 1일때 각각 0과 1이 반환되도록 한다
+		return (i);
+	return (ft_fibonacci(i - 1) + ft_fibonacci(i - 2)); //앞자리 둘 더한 수를 반환
+}
+
+**피보나치: 앞자리 2개를 더한 수가 현재 자리수
+
+<Ex05>
+
+int		ft_sqrt(int nb)
+{
+	long int i;
+
+	i = 1;
+	if (nb <= 0) // 무리수+0일때 예외처리
+		return (0);
+	if (nb == 1) //1 예외처리
+		return (1);
+	while (i * i < nb) i 제곱이 nb 보다 작을때동안
+		i++; //i를 1씩 증가
+	if ((i * i) == nb) i제곱이 nb가 되면
+		return (i); i 반환
+	return (0); //나머지(제곱근이 없을때) 결과
+}
+
+**제곱근: 제곱했을때 n이 되는 수 / ex) 4의 제곱근은 2
+
+<Ex06>
+
+int		ft_is_prime(int nb)
+{
+	long long i; //long으로 해야 타임오버 안걸린다고 함..
+	long long half;
+
+	i = 5; //2와 3으로 나뉘어질떄 처리는 이미 했으므로
+	half = nb / 2; //계산 조금이라도 빨리하려고
+	if (nb <= 1) //1보다 작을때(소수아님)
+		return (0);
+	if (nb == 2 || nb == 3) //2와 3일때(가장 작은 소수)
+		return (1);
+	if ((nb % 2) == 0 || (nb % 3) == 0) //2와 3으로 나뉘어질때(소수아님)
+		return (0);
+	while (i < half) //i가 하프보다 작을동안 반복
+	{
+		if ((nb % i) == 0) //nb % i가 딱 떨어지면(소수아님)
+			return (0);
+		i += 2; (2씩 값 올리면서 계산(2가 최소 소수니까))
+	}
+	return (1);
+}
+
+<Ex07>
+
+int		ft_is_prime(int nb) //소수인지 판별
+{
+	long long i;
+	long long half;
+
+	i = 5;
+	half = nb / 2;
+	if (nb <= 1)
+		return (0);
+	if (nb == 2 || nb == 3)
+		return (1);
+	if ((nb % 2) == 0 || (nb % 3) == 0)
+		return (0);
+	while (i < half)
+	{
+		if ((nb % i) == 0)
+			return (0);
+		i += 2;
+	}
+	return (1);
+}
+
+int		ft_find_next_prime(int nb)
+{
+	int n;
+
+	n = nb;
+	while (!ft_is_prime(n)) //n이 소수가 아니라면
+		n++; //값 1씩 올려주면서 검사
+	return (n); //n반환
+}
