@@ -1,0 +1,153 @@
+<ex00>
+
+#include <unistd.h>
+
+void	ft_putstr(char *str) //문자열 표시
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int		main(int argc, char **argv) //이중포인터 선언(문자열 포인터의 포인터 사용)
+{
+	(void)argc; //argc는 항상 최소 1[0]이며(파일명) 그외 추가 개수이기에 argc 사용안한다고 선언
+	ft_putstr(argv[0]); //argv 0부터(파일명) 문자열 출력
+	write(1, "\n", 1); // 개행문자 넣어서 줄바꿈
+	return (0);
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<ex01>
+
+#include <unistd.h>
+
+void	ft_putstr(char *str) //문자열 표시
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int		main(int argc, char **argv)
+{
+	int i;
+
+	i = 1;
+	while (argc > i) //argc(데이터 개수)가 i보다 클동안
+	//argv는 최소 1이고(파일명) 파일명 외에 추가로 인자를 입력할땐 1보다 크다
+	{
+		ft_putstr(argv[i]); //문자열 출력
+		write(1, "\n", 1); //개행문자 삽입
+		i++; //i하나씩 증가시키면서 반복
+	}
+	return (0);
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<ex02>
+
+#include <unistd.h>
+
+void	ft_putstr(char *str) //문자열 출력 함수
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int		main(int argc, char **argv)
+{
+	int i;
+
+	i = argc; //데이터 개수로 정의
+	while (i != '\0') //널값이 아닐동안
+	{
+		ft_putstr(argv[i - 1]); //i-1로 문자열 출력
+		write(1, "\n", 1); //개행문자 삽입
+		i--; //1감소하며 반복
+	}
+	return (0);
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<ex03>
+
+#include <unistd.h>
+
+int		ft_strcmp(char *s1, char *s2) //문자열 크기 비교
+{
+	int i;
+
+	i = 0;
+	while (s1[i] != '\0' || s2[i] != '\0')
+	{
+		if (s1[i] > s2[i])
+			return (1);
+		else if (s1[i] < s2[i])
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+void	ft_swap(char **a, char **b) //순서 바꾸기
+{
+	char	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+void	ft_putstr(char *str) //문자열 표시
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+}
+
+int		main(int argc, char **argv)
+{
+	int i;
+
+	i = 1;
+	while (argc > i + 1) //데이터 개수가 i + 1보다 클동안
+	{
+		if (ft_strcmp(argv[i], argv[i + 1]) == 1) // 전자가 후자보다 크면
+		{
+			ft_swap(&argv[i], &argv[i + 1]); //둘 위치 바꿈
+			i = 1; //i는 1로 되돌린다
+		}
+		else
+			i++; //i 1증가해주고 다시 검사
+	}
+	i = 1;
+	while (argc > i) //데이터 개수가 i보다 클동안
+	{
+		ft_putstr(argv[i]); //문자열 출력
+		write(1, "\n", 1); //개행문자 삽입
+		i++; //i하나씩 증가시키면서 반복
+	}
+	return (0);
+}
